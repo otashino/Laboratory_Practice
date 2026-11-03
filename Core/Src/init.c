@@ -1,18 +1,18 @@
 #include "init.h"
 
+
 void GPIO_Ini(void) {
-    // Включение тактирования портов GPIOB и GPIOC
-    RCC_GPIO_EN |= (RCC_GPIOB_EN | RCC_GPIOC_EN);
     
-    // Настройка работы 7-го пина GPIOB в режиме вывода сигнала (Output mode)
-    GPIOB_MODER |= GPIOB_MODE_PIN7_OUT;
+    SET_BIT(RCC->AHB1ENR, RCC_AHB1ENR_GPIOBEN | RCC_AHB1ENR_GPIOCEN); 
+
+    SET_BIT(GPIOB->MODER, GPIO_MODER_MODE7_0);
+
     
-    // Настройка на Push-Pull работу 7-го пина GPIOB (Output Push-Pull)
-    GPIOB_OTYPER |= GPIOB_OTYPE_PIN7_PP;
+    CLEAR_BIT(GPIOB->OTYPER, GPIO_OTYPER_OT_7);
+
+    SET_BIT(GPIOB->OSPEEDR, GPIO_OSPEEDER_OSPEEDR7_0);
     
-    // Настройка скорости работы 7-го пина GPIOB на среднюю
-    GPIOB_OSPEEDR |= GPIOB_OSPEED_PIN7_MID;
+    CLEAR_BIT(GPIOB->PUPDR, GPIO_PUPDR_PUPDR7_0 | GPIO_PUPDR_PUPDR7_1);
     
-    // Отключение PU/PD резисторов для 7-го пина GPIOB
-    GPIOB_PUPDR |= GPIOB_PUPDR_PIN7_NOPUPD;
+    
 }
